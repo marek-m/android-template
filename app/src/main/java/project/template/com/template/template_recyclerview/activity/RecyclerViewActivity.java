@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
 import project.template.com.template.R;
 import project.template.com.template.template_recyclerview.adapter.ExampleRecyclerAdapter;
 
@@ -104,8 +103,7 @@ public class RecyclerViewActivity extends AppCompatActivity implements LoaderMan
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
+    
     private void setupActionBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
