@@ -1,7 +1,5 @@
 package project.template.com.template.template_activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,13 +13,7 @@ import project.template.com.template.R;
 /**
  * Created by Marek on 2015-09-15.
  */
-public class ExampleActivity extends AppCompatActivity {
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, ExampleActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        return intent;
-    }
-
+public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,5 +90,6 @@ public class ExampleActivity extends AppCompatActivity {
         bar.setDisplayShowHomeEnabled(true);
         bar.setDisplayHomeAsUpEnabled(false);
         bar.setHomeButtonEnabled(true);
+
     }
 }

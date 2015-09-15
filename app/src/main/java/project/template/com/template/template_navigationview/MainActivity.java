@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import project.template.com.template.R;
 
-public class DrawerActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
@@ -83,6 +83,7 @@ public class DrawerActivity extends AppCompatActivity {
 
 
     private void setupActionBar() {
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

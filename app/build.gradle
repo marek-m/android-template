@@ -25,6 +25,7 @@ android {
                             'src/main/res/layouts/recycler_view',
                             'src/main/res/layouts/template_activity',
                             'src/main/res/layouts/template_navigation_view',
+                            'src/main/res/layouts/template_recycler_view',
                             'src/main/res/menus/template_activity',
                             'src/main/res/layouts',
                             'src/main/res/menus',
@@ -39,4 +40,6 @@ dependencies {
     compile 'com.android.support:support-v4:23.0.0'
     compile 'com.android.support:appcompat-v7:23.0.0'
     compile 'com.android.support:design:23.0.0'
+    compile 'com.android.support:cardview-v7:23.0.0'
+    compile 'com.android.support:recyclerview-v7:23.0.0'
 }

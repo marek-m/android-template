@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_refresh"
+        android:icon="@drawable/ic_filter_action"
         android:title="REFRESH"
         android:orderInCategory="1"
         app:showAsAction="ifRoom" />
@@ -12,12 +13,13 @@
         android:id="@+id/menu_list"
         android:title="LIST"
         android:orderInCategory="2"
+        android:icon="@drawable/ic_settings"
         app:showAsAction="ifRoom">
         <menu>
             <item
                 android:id="@+id/menu_list_expand"
                 android:title="EXPAND"
-                android:icon="@null"
+                android:icon="@drawable/ic_settings"
                 android:orderInCategory="1" />
             <item
                 android:id="@+id/menu_list_collapse"
