@@ -77,7 +77,7 @@ public class ChecklistRecyclerAdapter extends RecyclerView.Adapter<ChecklistRecy
     }
 
     private void updateCheckButton(final ViewHolder holder, boolean checked) {
-        if(!checked) {
+        if(checked) {
             AnimatorSet animatorSet = new AnimatorSet();
 
 //            ObjectAnimator rotationAnim = ObjectAnimator.ofFloat(holder.checkButton, "rotation", 0f, 360f);
