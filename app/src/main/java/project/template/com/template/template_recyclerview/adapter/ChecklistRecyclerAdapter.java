@@ -77,6 +77,7 @@ public class ChecklistRecyclerAdapter extends RecyclerView.Adapter<ChecklistRecy
     }
 
     private void updateCheckButton(final ViewHolder holder, boolean checked) {
+        int position = holder.getAdapterPosition();
         if(checked) {
             AnimatorSet animatorSet = new AnimatorSet();
 
@@ -109,8 +110,49 @@ public class ChecklistRecyclerAdapter extends RecyclerView.Adapter<ChecklistRecy
             });
 
             animatorSet.start();
+            items.get(position).setChecked(true);
         } else {
-            //TODO ANIMACJA USUNIECIA ZAZNACZENIA
+            AnimatorSet animatorSet = new AnimatorSet();
+
+            ObjectAnimator rotationAnim = ObjectAnimator.ofFloat(holder.checkButton, "rotation", 0f, 360f);
+            rotationAnim.setDuration(300);
+            rotationAnim.setInterpolator(ACCELERATE_INTERPOLATOR);
+
+
+            ObjectAnimator bounceAnimX = ObjectAnimator.ofFloat(holder.checkButton, "scaleX", 1f, 0.1f);
+            bounceAnimX.setDuration(600);
+            bounceAnimX.setInterpolator(OVERSHOOT_INTERPOLATOR);
+
+            ObjectAnimator bounceAnimY = ObjectAnimator.ofFloat(holder.checkButton, "scaleY", 1f, 0.1f);
+            bounceAnimY.setDuration(600);
+            bounceAnimY.setInterpolator(OVERSHOOT_INTERPOLATOR);
+
+
+            ObjectAnimator fadeOut = ObjectAnimator.ofFloat(holder.checkButton, "alpha",0);
+            fadeOut.setDuration(100);
+
+            bounceAnimX.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    holder.checkButton.setImageResource(R.drawable.ic_circle_unchecked);
+                    holder.checkButton.setAlpha(1f);
+                    holder.checkButton.setScaleX(1f);
+                    holder.checkButton.setScaleY(1f);
+                }
+            });
+
+            animatorSet.play(rotationAnim);
+            animatorSet.play(bounceAnimX).with(bounceAnimY).with(fadeOut).after(rotationAnim);
+
+            animatorSet.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    //resetLikeAnimationState(holder);
+                }
+            });
+
+            animatorSet.start();
+            items.get(position).setChecked(false);
         }
 
 
@@ -124,6 +166,8 @@ public class ChecklistRecyclerAdapter extends RecyclerView.Adapter<ChecklistRecy
             ViewModel item = items.get(holder.getAdapterPosition());
             if(!item.isChecked()) {
                 updateCheckButton(holder, true);
+            } else {
+                updateCheckButton(holder, false);
             }
         }
 
