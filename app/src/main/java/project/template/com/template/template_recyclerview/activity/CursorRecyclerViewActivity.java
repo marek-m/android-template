@@ -1,5 +1,10 @@
 package project.template.com.template.template_recyclerview.activity;
 
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,26 +14,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import java.util.Stack;
-import java.util.Timer;
-
-import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
+import android.view.View;
 import project.template.com.template.R;
-import project.template.com.template.template_recyclerview.adapter.MyRecyclerAdapter;
-import project.template.com.template.template_recyclerview.model.ViewModel;
+import project.template.com.template.template_recyclerview.adapter.ExampleRecyclerAdapter;
 
 /**
  * Created by Marek on 2015-09-15.
  */
-public class RecyclerViewActivity extends AppCompatActivity {
+public class CursorRecyclerViewActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, ExampleRecyclerAdapter.OnItemClickListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private MyRecyclerAdapter mAdapter;
-    private Timer timer = new Timer();
-    private Stack<ViewModel> items;
-    private int position;
+    private ExampleRecyclerAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,29 +35,18 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
+        mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setItemAnimator(new SlideInLeftAnimator());
-        mRecyclerView.getItemAnimator().setAddDuration(2000);
-        fillData();
 
+        fillData();
     }
 
     private void fillData() {
-        items = getItems();
-        mAdapter = new MyRecyclerAdapter(items, this);
+        getLoaderManager().initLoader(0, null, this);
+        mAdapter = new ExampleRecyclerAdapter(null, this);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    /* TEST DATA FOR RECYCLERVIEW */
-    private Stack<ViewModel> getItems() {
-        Stack<ViewModel> result = new Stack<>();
-        for(int i=0; i<10;i++) {
-            ViewModel model = new ViewModel("model"+i, false);
-            result.push(model);
-        }
-        return result;
-    }
 
     @Override
     public void onStart() {
@@ -129,4 +115,39 @@ public class RecyclerViewActivity extends AppCompatActivity {
         bar.setHomeButtonEnabled(true);
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        /* projection - table columns */
+
+        String[] projection = {
+                "_id",
+                "some_column"
+        };
+
+        /* SQLContentProvider from Sql content provider class*/
+        Uri CONTENT_URI_EXAMPLE = Uri.parse("content://" + "test");
+        CursorLoader cursorLoader = new CursorLoader(this, CONTENT_URI_EXAMPLE, projection, null, null, null);
+        return cursorLoader;
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        mAdapter.swapCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mAdapter.swapCursor(null);
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        //TODO do something with position
+    }
+
+    @Override
+    public void onItemLongClick(View view, int position, long id, int viewType) {
+        //TODO do something with position
+    }
 }

@@ -15,17 +15,17 @@ import java.util.Timer;
 
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 import project.template.com.template.R;
-import project.template.com.template.template_recyclerview.adapter.MyRecyclerAdapter;
+import project.template.com.template.template_recyclerview.adapter.ChecklistRecyclerAdapter;
 import project.template.com.template.template_recyclerview.model.ViewModel;
 
 /**
  * Created by Marek on 2015-09-15.
  */
-public class RecyclerViewActivity extends AppCompatActivity {
+public class CheclistRecyclerViewActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private MyRecyclerAdapter mAdapter;
+    private ChecklistRecyclerAdapter mAdapter;
     private Timer timer = new Timer();
     private Stack<ViewModel> items;
     private int position;
@@ -48,7 +48,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
     private void fillData() {
         items = getItems();
-        mAdapter = new MyRecyclerAdapter(items, this);
+        mAdapter = new ChecklistRecyclerAdapter(items, this);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -56,7 +56,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
     private Stack<ViewModel> getItems() {
         Stack<ViewModel> result = new Stack<>();
         for(int i=0; i<10;i++) {
-            ViewModel model = new ViewModel("model"+i, false);
+            ViewModel model = new ViewModel("model"+i, i%2==0);
             result.push(model);
         }
         return result;
