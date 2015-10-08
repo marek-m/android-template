@@ -2,14 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:background="#FFFFFF"
+    android:transitionName="AAA"
     >
 
-    <ImageView
+    <View
+        android:id="@+id/detail_image1"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#00000F"
+        android:transitionName="@string/shared_image_transition"/>
+    <View
         android:id="@+id/detail_image"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/image"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#0000FF"
         android:transitionName="@string/shared_image_transition"/>
     <TextView
         android:id="@+id/detail_text"

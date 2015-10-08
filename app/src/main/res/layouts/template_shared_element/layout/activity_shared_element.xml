@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <!-- MAIN LAYOUT DIRECTORY -->
     <include layout="@layout/toolbar" />
+    <FrameLayout
+        android:id="@+id/modal"
+        android:visibility="gone"
+        android:background="#888888"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+    </FrameLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="0dp"
-        android:paddingRight="0dp"/>
+        android:paddingRight="0dp" />
+
 
 </LinearLayout>

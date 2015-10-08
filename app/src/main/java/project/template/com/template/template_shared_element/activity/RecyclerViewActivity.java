@@ -85,7 +85,8 @@ public class RecyclerViewActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 View imageView = view.findViewById(R.id.shared_image);
                 View textView = view.findViewById(R.id.shared_text);
-                animateIntent(imageView, textView);
+
+                animateIntent(view, imageView, textView);
             }
 
             @Override
@@ -173,7 +174,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
     }
 
 
-    public void animateIntent(View imgView, View textView) {
+    public void animateIntent(View parent, View imgView, View textView) {
 
         Intent intent = new Intent(this, DetailsActivity.class);
         // Pass data object in the bundle and populate details activity.
@@ -182,10 +183,9 @@ public class RecyclerViewActivity extends AppCompatActivity {
         Pair<View, String> p1 = Pair.create(imgView, getString(R.string.shared_image_transition));
         Pair<View, String> p2 = Pair.create(textView, getString(R.string.shared_text_transition));
 
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, parent, "AAA");
 
         startActivity(intent, options.toBundle());
-
     }
 
 }

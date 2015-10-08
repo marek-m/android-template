@@ -27,7 +27,9 @@
         android:background="@color/status_done_partly"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:weightSum="1">
+
+        android:weightSum="1"
+        android:transitionName="AAA">
         <ImageView
             android:transitionName="@string/shared_image_transition"
             android:layout_height="80dp"
@@ -39,9 +41,10 @@
             android:transitionName="@string/shared_text_transition"
             android:id="@+id/shared_text"
             android:text="FLOWER"
+            android:background="#FFFFFF"
             android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
 
     </RelativeLayout>
