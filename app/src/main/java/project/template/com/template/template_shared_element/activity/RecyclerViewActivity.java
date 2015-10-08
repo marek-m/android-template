@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,7 +49,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new SlideInLeftAnimator());
-        mRecyclerView.getItemAnimator().setAddDuration(2000);
 
         fillData();
 
@@ -83,8 +83,9 @@ public class RecyclerViewActivity extends AppCompatActivity {
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
-                animateIntent(view.findViewById(R.id.image));
+                View imageView = view.findViewById(R.id.shared_image);
+                View textView = view.findViewById(R.id.shared_text);
+                animateIntent(imageView, textView);
             }
 
             @Override
@@ -172,12 +173,17 @@ public class RecyclerViewActivity extends AppCompatActivity {
     }
 
 
-    public void animateIntent(View view) {
+    public void animateIntent(View imgView, View textView) {
 
         Intent intent = new Intent(this, DetailsActivity.class);
-// Pass data object in the bundle and populate details activity.
-        ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation(this, (View)view, "hello");
+        // Pass data object in the bundle and populate details activity.
+
+        //FOR MULTIPLE TRANSITIONS AT THE SAME TIME
+        Pair<View, String> p1 = Pair.create(imgView, getString(R.string.shared_image_transition));
+        Pair<View, String> p2 = Pair.create(textView, getString(R.string.shared_text_transition));
+
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2);
+
         startActivity(intent, options.toBundle());
 
     }
