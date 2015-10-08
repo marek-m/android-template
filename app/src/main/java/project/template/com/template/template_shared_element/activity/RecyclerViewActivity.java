@@ -1,8 +1,10 @@
-package project.template.com.template.template_recyclerview.activity;
+package project.template.com.template.template_shared_element.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,16 +13,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
-import java.util.ArrayList;
 import java.util.Stack;
 import java.util.Timer;
 
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 import project.template.com.template.R;
-import project.template.com.template.template_recyclerview.adapter.MyRecyclerAdapter;
 import project.template.com.template.template_recyclerview.itemanimator.SlideInFromLeftItemAnimator;
-import project.template.com.template.template_recyclerview.model.ViewModel;
+import project.template.com.template.template_shared_element.adapter.MyRecyclerAdapter;
+import project.template.com.template.template_shared_element.model.ViewModel;
+import project.template.com.template.template_shared_element.utils.RecyclerItemClickListener;
 
 /**
  * Created by Marek on 2015-09-15.
@@ -37,7 +40,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycler_view);
+        setContentView(R.layout.activity_shared_element);
         setupActionBar();
 
 
@@ -47,6 +50,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
         mRecyclerView.setItemAnimator(new SlideInLeftAnimator());
         mRecyclerView.getItemAnimator().setAddDuration(2000);
 
+        fillData();
 
     }
 
@@ -64,17 +68,30 @@ public class RecyclerViewActivity extends AppCompatActivity {
     }
     private void fillData() {
         items = getItems();
-        mAdapter = new MyRecyclerAdapter(new ArrayList<ViewModel>(0), this);
+        mAdapter = new MyRecyclerAdapter(items, this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new SlideInFromLeftItemAnimator(mRecyclerView));
 
-        //ANIMATIONS
+//        //ANIMATIONS
         Handler handler = new Handler(Looper.getMainLooper());
         int i = 200;
         while(!items.isEmpty()) {
             i+=200;
             handler.postDelayed(new AddItemTask(items.pop()), i);
         }
+
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                animateIntent(view.findViewById(R.id.image));
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        }));
     }
 
     /* TEST DATA FOR RECYCLERVIEW */
@@ -90,7 +107,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        fillData();
     }
 
 
@@ -153,6 +169,17 @@ public class RecyclerViewActivity extends AppCompatActivity {
         bar.setDisplayShowHomeEnabled(true);
         bar.setDisplayHomeAsUpEnabled(false);
         bar.setHomeButtonEnabled(true);
+    }
+
+
+    public void animateIntent(View view) {
+
+        Intent intent = new Intent(this, DetailsActivity.class);
+// Pass data object in the bundle and populate details activity.
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(this, (View)view, "hello");
+        startActivity(intent, options.toBundle());
+
     }
 
 }

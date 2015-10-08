@@ -1,4 +1,4 @@
-package project.template.com.template.template_recyclerview.adapter;
+package project.template.com.template.template_shared_element.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import project.template.com.template.R;
-import project.template.com.template.template_recyclerview.model.ViewModel;
+import project.template.com.template.template_shared_element.model.ViewModel;
 
 /**
  * Created by Marek on 2015-09-16.
@@ -30,7 +30,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_example_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_shared_element_item, parent, false);
         return new ViewHolder(v);
     }
 

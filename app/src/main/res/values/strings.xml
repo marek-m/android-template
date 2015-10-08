@@ -5,4 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="drawer_open">D open</string>
     <string name="drawer_close">D close</string>
+
+    <string name="transition_string">hello</string>
 </resources>

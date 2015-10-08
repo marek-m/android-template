@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "project.template.com.template"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -26,6 +26,7 @@ android {
                             'src/main/res/layouts/template_activity',
                             'src/main/res/layouts/template_navigation_view',
                             'src/main/res/layouts/template_recycler_view',
+                            'src/main/res/layouts/template_shared_element',
                             'src/main/res/menus/template_activity',
                             'src/main/res/layouts',
                             'src/main/res/menus',
