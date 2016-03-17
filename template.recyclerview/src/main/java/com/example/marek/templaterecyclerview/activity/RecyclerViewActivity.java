@@ -1,32 +1,25 @@
-package project.template.com.template.template_shared_element.activity;
+package com.example.marek.templaterecyclerview.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
+import com.example.marek.templaterecyclerview.R;
+import com.example.marek.templaterecyclerview.adapter.MyRecyclerAdapter;
+import com.example.marek.templaterecyclerview.itemanimator.SlideInFromLeftItemAnimator;
+import com.example.marek.templaterecyclerview.model.ViewModel;
+
+import java.util.ArrayList;
 import java.util.Stack;
 import java.util.Timer;
-
-import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
-import project.template.com.template.R;
-import project.template.com.template.template_recyclerview.itemanimator.SlideInFromLeftItemAnimator;
-import project.template.com.template.template_shared_element.adapter.MyRecyclerAdapter;
-import project.template.com.template.template_shared_element.model.ViewModel;
-import project.template.com.template.template_shared_element.utils.RecyclerItemClickListener;
 
 /**
  * Created by Marek on 2015-09-15.
@@ -43,17 +36,13 @@ public class RecyclerViewActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shared_element);
+        setContentView(R.layout.activity_recycler_view);
         setupActionBar();
 
-
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
+        mLayoutManager = new GridLayoutManager(this, 3);
+        //mLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setItemAnimator(new SlideInLeftAnimator());
-
-        fillData();
-
     }
 
     private class AddItemTask implements Runnable {
@@ -70,38 +59,23 @@ public class RecyclerViewActivity extends AppCompatActivity {
     }
     private void fillData() {
         items = getItems();
-        mAdapter = new MyRecyclerAdapter(items, this);
+        mAdapter = new MyRecyclerAdapter(new ArrayList<ViewModel>(0), this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new SlideInFromLeftItemAnimator(mRecyclerView));
 
-//        //ANIMATIONS
+        //ANIMATIONS
         Handler handler = new Handler(Looper.getMainLooper());
         int i = 200;
         while(!items.isEmpty()) {
             i+=200;
             handler.postDelayed(new AddItemTask(items.pop()), i);
         }
-
-        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                View imageView = view.findViewById(R.id.shared_image);
-                View textView = view.findViewById(R.id.shared_text);
-
-                animateIntent(view, imageView, textView);
-            }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
-        }));
     }
 
     /* TEST DATA FOR RECYCLERVIEW */
     private Stack<ViewModel> getItems() {
         Stack<ViewModel> result = new Stack<>();
-        for(int i=10; i>0;--i) {
+        for(int i=25; i>0;--i) {
             ViewModel model = new ViewModel("model"+i, false);
             result.push(model);
         }
@@ -111,6 +85,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        fillData();
     }
 
 
@@ -173,47 +148,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
         bar.setDisplayShowHomeEnabled(true);
         bar.setDisplayHomeAsUpEnabled(false);
         bar.setHomeButtonEnabled(true);
-    }
-
-
-    public void animateIntent(View parent, View imgView, View textView) {
-
-        final Intent intent = new Intent(this, DetailsActivity.class);
-        // Pass data object in the bundle and populate details activity.
-
-        //FOR MULTIPLE TRANSITIONS AT THE SAME TIME
-        Pair<View, String> p1 = Pair.create(imgView, getString(R.string.shared_image_transition));
-        Pair<View, String> p2 = Pair.create(textView, getString(R.string.shared_text_transition));
-
-        final ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, parent, "AAA");
-
-
-
-
-        startActivity(intent, options.toBundle());
-
-    }
-
-    private void runFadeOutAnimation() {
-        Animation a = AnimationUtils.loadAnimation(this, R.anim.fade_out);
-        a.reset();
-        a.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        mRecyclerView.clearAnimation();
-        mRecyclerView.startAnimation(a);
     }
 
 }

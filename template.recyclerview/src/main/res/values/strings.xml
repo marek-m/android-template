@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Template</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="drawer_open">D open</string>
+    <string name="drawer_close">D close</string>
+
+    <string name="transition_string">hello</string>
+    <string name="shared_text_transition">SHARED_TEXT_TRANSITION</string>
+    <string name="shared_image_transition">SHARED_IMAGE_TRANSITION</string>
+
+</resources>
