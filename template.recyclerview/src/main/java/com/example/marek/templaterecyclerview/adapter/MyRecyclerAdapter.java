@@ -2,6 +2,7 @@ package com.example.marek.templaterecyclerview.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,12 @@ import java.util.List;
  */
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
 
+
+    private static final String TAG = MyRecyclerAdapter.class.getSimpleName();
     private List<ViewModel> items;
     private int lastPosition = -1;
     private Context context;
+    private OnItemClickListener mItemClickListener;
 
     public MyRecyclerAdapter(List<ViewModel> items, Context context) {
         this.items = items;
@@ -44,6 +48,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         //setAnimation(holder.itemView, position);
     }
 
+    public void setOnItemClickListener(OnItemClickListener clickListener) {
+        mItemClickListener = clickListener;
+    }
+
     @Override
     public int getItemCount() {
         return items.size();
@@ -60,16 +68,28 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         notifyItemRemoved(position);
     }
 
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView text;
+        int id;
 
         public ViewHolder(View itemView) {
             super(itemView);
             text = (TextView) itemView.findViewById(R.id.text1);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Log.v(TAG, "onClick");
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(v);
+            }
         }
     }
 
+    public interface OnItemClickListener {
+        public void onItemClick(View view);
+    }
 
     /* ANIMATION */
 

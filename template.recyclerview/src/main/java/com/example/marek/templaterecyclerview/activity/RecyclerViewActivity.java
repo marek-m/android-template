@@ -8,23 +8,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.marek.templaterecyclerview.R;
 import com.example.marek.templaterecyclerview.adapter.MyRecyclerAdapter;
 import com.example.marek.templaterecyclerview.itemanimator.SlideInFromLeftItemAnimator;
 import com.example.marek.templaterecyclerview.model.ViewModel;
+import com.example.marek.templaterecyclerview.view.DetailView;
 
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.Timer;
+import java.util.UUID;
 
 /**
  * Created by Marek on 2015-09-15.
  */
-public class RecyclerViewActivity extends AppCompatActivity {
+public class RecyclerViewActivity extends AppCompatActivity implements MyRecyclerAdapter.OnItemClickListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -45,6 +51,16 @@ public class RecyclerViewActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
     }
 
+    @Override
+    public void onItemClick(View view) {
+        Log.v("RecyclerViewActivity", "onItemClick");
+        String uuid = UUID.randomUUID().toString();
+        DetailView.launch(RecyclerViewActivity.this, mRecyclerView, view.findViewById(R.id.item), uuid);
+    }
+
+    public Transition inflateTransition(int id) {
+        return TransitionInflater.from(this).inflateTransition(id);
+    }
     private class AddItemTask implements Runnable {
 
         ViewModel item;
@@ -60,6 +76,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
     private void fillData() {
         items = getItems();
         mAdapter = new MyRecyclerAdapter(new ArrayList<ViewModel>(0), this);
+        mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new SlideInFromLeftItemAnimator(mRecyclerView));
 
